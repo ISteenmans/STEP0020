@@ -210,7 +210,7 @@
     length. Don't worry about assigning the result to a variable.
 
 - Class: text
-  Output: Tip: You can type skip() to move on, play() to experiment (then nxt() to return), main() for the menu, and bye() to save and exit.
+  Output: Tip. You can type skip() to move on, play() to experiment (then nxt() to return), main() for the menu, and bye() to save and exit.
 
 - Class: text
   Output: Lets quickly look at a couple of time-saving tricks.
