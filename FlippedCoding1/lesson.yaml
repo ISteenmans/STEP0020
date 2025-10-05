@@ -200,35 +200,49 @@
   Output: If the length of the shorter vector does not divide evenly into the length
     of the longer vector, R will still apply the 'recycling' method, but will throw
     a warning to let you know something fishy might be going on.
-
 - Class: cmd_question
-  Output: Try c(1, 2, 3, 4) + c(0, 10, 100) for an example.
+  Output: "Try c(1, 2, 3, 4) + c(0, 10, 100) for an example."
   CorrectAnswer: c(1, 2, 3, 4) + c(0, 10, 100)
   AnswerTests: omnitest(correctExpr='c(1, 2, 3, 4) + c(0, 10, 100)')
-  Hint: Type c(1, 2, 3, 4) + c(0, 10, 100) to see how R handles adding two vectors,
+  Hint: |
+    Type c(1, 2, 3, 4) + c(0, 10, 100) to see how R handles adding two vectors,
     when the shorter vector's length does not divide evenly into the longer vector's
     length. Don't worry about assigning the result to a variable.
 
 - Class: text
-  Output: Lets quickly look at a couple of time-saving tricks.
+  Output: "Let's quickly look at a couple of time-saving tricks."
 
 - Class: text
-  Output: Earlier in the lesson, you computed z * 2 + 100. Let's pretend that you made a mistake and that you meant to add 1000 instead of 100. You could either re-type the expression, or...
+  Output: |
+    Earlier in the lesson, you computed z * 2 + 100. Let's pretend that you made a
+    mistake and that you meant to add 1000 instead of 100. You could either re-type
+    the expression, or...
 
 - Class: cmd_question
-  Output: In many programming environments, the up arrow will cycle through previous commands. Try hitting the up arrow on your keyboard until you get to this command (z * 2 + 100), then change 100 to 1000 and hit Enter. If the up arrow doesn't work for you, just type the corrected command.
+  Output: |
+    In many programming environments, the up arrow will cycle through previous commands.
+    Try hitting the up arrow on your keyboard until you get to this command (z * 2 + 100),
+    then change 100 to 1000 and hit Enter. If the up arrow doesn't work for you, just
+    type the corrected command.
   CorrectAnswer: z * 2 + 1000
   AnswerTests: omnitest(correctExpr='z * 2 + 1000')
-  Hint: If your environment does not support the up arrow feature, then just type the corrected command to move on.
+  Hint: "If your environment does not support the up arrow feature, then just type the corrected command to move on."
 
 - Class: text
-  Output: Now let's pretend you'd like to view the contents of a variable that you created earlier, but you can't seem to remember if you named it my_div or myDiv. You could try both and see what works, or...
+  Output: |
+    Now let's pretend you'd like to view the contents of a variable that you created earlier,
+    but you can't seem to remember if you named it my_div or myDiv. You could try both and
+    see what works, or...
 
 - Class: cmd_question
-  Output: You can type the first two letters of the variable name, then hit the Tab key (possibly more than once). Most programming environments will provide a list of variables that you've created that begin with 'my'. This is called auto-completion and can be quite handy when you have many variables in your workspace. Give it a try. (If auto-completion doesn't work for you, just type my_div and press Enter.)
+  Output: |
+    You can type the first two letters of the variable name, then hit the Tab key (possibly more than once).
+    Most programming environments will provide a list of variables that you've created that begin with 'my'.
+    This is called auto-completion and can be quite handy when you have many variables in your workspace.
+    Give it a try. (If auto-completion doesn't work for you, just type my_div and press Enter.)
   CorrectAnswer: my_div
   AnswerTests: omnitest(correctExpr='my_div')
-  Hint: If your programming environment doesn't support auto-completion, just type my_div and hit Enter to move on.
+  Hint: "If your programming environment doesn't support auto-completion, just type my_div and hit Enter to move on."
 
 - Class: text
   Output: So, c() is an easy way to create a vector, but it's not the only way. Sometimes we'll want to import data, which we will look at more closely later. But other times, we want to make sequences of numbers.
