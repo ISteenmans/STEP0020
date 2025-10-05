@@ -1,5 +1,5 @@
 - Class: meta
-  Course: STEP0042
+  Course: STEP0020
   Lesson: Flipped Coding 1 - foundations for vectors, logical and subsetting
   Author: Michael Veale & Ine Steenmans
   Type: Standard
@@ -512,9 +512,6 @@
     to join the elements of my_char together into one continuous character string
     (i.e. a character vector of length 1). We can do this using the paste() function.
 
-- Class: text
-  Output: In Session 3 you built a tiny “age converter” and a summary sentence with paste(). You’ll see the same ideas here (numbers + text).
-  
 - Class: cmd_question
   Output: Type paste(my_char, collapse = " ") now. Make sure there's a space between
     the double quotes in the `collapse` argument. You'll see why in a second.
@@ -762,16 +759,11 @@
   Hint: Replace 1234567 with your own 7-digit student number, e.g., completioncode(1XXXXXX).
   
 - Class: text
-  Output: ✅ Copy your code and paste it in Moodle under “Flipped Coding 1 — Completion Code”.
+  Output: ✅ Copy your code and paste it in Moodle under “Pre-session 4”.
 
 - Class: text
   Output: 📸 If Moodle asks for a screenshot, include the console line showing completioncode(YOURNUMBER) and the printed code.
 
-- Class: text
-  Output: "🪞 Reflection time: To earn full marks (100%), complete the additional short reflection on Moodle after finishing this activity. 
-           The question asks you to connect what you learned here with the wider course so far. 
-           Aim for about 100 words."
-  
 - Class: text
   Output: 💾 Saving & exiting: type bye() to exit and save your progress. To return to the main menu (without exiting R), type main(). You can experiment with play() and resume with nxt(). Your code remains valid once generated.
 
