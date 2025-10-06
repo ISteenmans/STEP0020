@@ -215,10 +215,10 @@
   FigureType: new
 
 - Class: cmd_question
-  Output: "Type completioncode(YOUR_7_DIGIT_NUMBER). Example: completioncode(1007893)."
-  CorrectAnswer: completioncode(1234567)
+  Output: "Type completioncode(YOUR_8_DIGIT_NUMBER). Example: completioncode(1007893)."
+  CorrectAnswer: completioncode(12345678)
   AnswerTests: expr_uses_func("completioncode")
-  Hint: "Replace 1234567 with your own 7-digit student number, for example completioncode(1XXXXXX)."
+  Hint: "Replace 12345678 with your own 8-digit student number, for example completioncode(1XXXXXXX)."
 
 - Class: text
   Output: "Copy your code and paste it in Moodle under 'Pre-session 4'."
