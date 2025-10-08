@@ -1,7 +1,7 @@
 - Class: meta
   Course: STEP0020
   Lesson: Flipped Coding 2
-  Author: Michael Veale
+  Author: Ine Steenmans & Michael Veale
   Type: Standard
   Organization: UCL STEaPP (includes GNU content from https://github.com/swirldev/swirl_courses. Distributed GNU GPL v3)
   Version: 1
@@ -243,16 +243,21 @@
   Output: That's great! Summarisation is a really powerful tool we'll practice more of as we go forward in the course.
   
 - Class: figure
-  Output: This lesson is complete! But before you leave, you'll need to generate a code to show you've completed it, and post it on Moodle. 
+  Output: "This lesson is complete! Before leaving, generate your completion code with your UCL student number and post it in Moodle."
   Figure: finalcode.R
   FigureType: new
-  
+
 - Class: cmd_question
-  Output: Get your UCL student number (it's on your card, and your online account, and usually has 7 digits), and write it into the function completioncode(). For example, if my number was 1007893, I'd call completioncode(1007893). Make a note of this number! 
-  CorrectAnswer: completioncode(0000000)
+  Output: "Type completioncode(YOUR_8_DIGIT_NUMBER). Example: completioncode(1007893)."
+  CorrectAnswer: completioncode(12345678)
   AnswerTests: expr_uses_func("completioncode")
-  Hint: Type completioncode(MYSTUDENTNUMBER), replacing the text with your actual student number. Write down the result! If you are having trouble, screenshot this page and email it to Michael.
+  Hint: "Replace 12345678 with your own 8-digit student number, for example completioncode(1XXXXXXX)."
 
 - Class: text
-  Output: Now, save that code and go on Moodle, and enter it in the indicated location - Flipped Coding 2 Completion Codes Assignment.
+  Output: "Copy your code and paste it in Moodle under 'Pre-session 6'."
 
+- Class: text
+  Output: "If Moodle asks for a screenshot, include the console line showing completioncode(YOURNUMBER) and the printed code."
+
+- Class: text
+  Output: "Saving and exiting: type bye() to exit and save your progress. To return to the main menu (without exiting R), type main(). You can experiment with play() and resume with nxt(). Your code remains valid once generated."
