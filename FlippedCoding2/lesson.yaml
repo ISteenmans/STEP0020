@@ -1,255 +1,347 @@
 - Class: meta
   Course: STEP0020
   Lesson: Flipped Coding 2
-  Author: Ine Steenmans & Michael Veale
+  Author: Ine Steenmans, after Michael Veale
   Type: Standard
   Organization: UCL STEaPP (includes GNU content from https://github.com/swirldev/swirl_courses. Distributed GNU GPL v3)
   Version: 2
 
 - Class: text
-  Output: "In this lesson, you'll learn more about how to manipulate data using dplyr. dplyr is a fast and powerful R package written by Hadley Wickham and Romain Francois that provides a consistent and concise grammar for manipulating tabular data."
+  Output: In this lesson you learn to import a data file into R and then to manipulate it with dplyr, a package written by Hadley Wickham and Romain Francois that gives you a small set of verbs for working with tables of data.
 
 - Class: text
-  Output: "We're going to be working with a dataset of flights in New York in 2013. I've loaded it for you already."
-
-- Class: cmd_question
-  Output: "You can see it by typing flights at the command line."
-  CorrectAnswer: flights
-  AnswerTests: omnitest(correctExpr='flights')
-  Hint: "Type flights at the command line."
-
-- Class: cmd_question
-  Output: "Use dim() to look at the dimensions of flights."
-  CorrectAnswer: dim(flights)
-  AnswerTests: omnitest(correctExpr='dim(flights)')
-  Hint: "dim(flights) will give you the dimensions of the dataset."
-
-- Class: cmd_question
-  Output: "Now use head() to preview the data."
-  CorrectAnswer: head(flights)
-  AnswerTests: omnitest(correctExpr='head(flights)')
-  Hint: "head(flights) will show you the first six rows."
-
-- Class: cmd_question
-  Output: "And tail() to show you the end."
-  CorrectAnswer: tail(flights)
-  AnswerTests: omnitest(correctExpr='tail(flights)')
-  Hint: "tail(flights) will show you the last six rows."
-
-- Class: cmd_question
-  Output: "The dplyr package was automatically installed (if necessary) and loaded at the beginning of this lesson. Normally, this is something you would have to do on your own. Just to build the habit, type library(dplyr) now to load the package again."
-  CorrectAnswer: library(dplyr)
-  AnswerTests: omnitest(correctExpr='library(dplyr)')
-  Hint: "Use library(dplyr) to load the dplyr package."
+  Output: The data is mysterydata.csv, the file you met in Session 4. It is the passenger list of the RMS Titanic, which sank in April 1912. 1,309 people, six columns, namely class of ticket, whether they survived, name, sex, age and fare. By now you know what it is. Today you learn to ask it questions.
 
 - Class: text
-  Output: "According to the Introduction to dplyr vignette written by the package authors, the dplyr philosophy is to have small functions that each do one thing well. Specifically, dplyr supplies five verbs that cover most fundamental data manipulation tasks: select(), filter(), arrange(), mutate(), and summarize()."
-
-- Class: cmd_question
-  Output: "Use ?select to pull up the documentation for the first of these core functions."
-  CorrectAnswer: ?select
-  AnswerTests: omnitest(correctExpr='?select')
-  Hint: "?select will display the documentation for dplyr's select() function."
+  Output: First, where you work. R can only open a file it can find, and it looks in one folder at a time. That folder is called the working directory. Everything you read and everything you save goes through it. Before any data, we set it.
 
 - Class: text
-  Output: "Help files for the other functions are accessible in the same way."
-
-- Class: cmd_question
-  Output: "As may often be the case, particularly with larger datasets, we are only interested in some of the variables. Maybe we want to know more about delays per day. Use select(flights, year, month, day, dep_delay) to select only those variables."
-  CorrectAnswer: select(flights, year, month, day, dep_delay)
-  AnswerTests: omnitest(correctExpr='select(flights, year, month, day, dep_delay)')
-  Hint: "Type select(flights, year, month, day, dep_delay)."
+  Output: You need a folder for this module on your computer. If you made one for Session 4, use that. If not, make one now, in Finder or File Explorer, somewhere you will find again, for example Documents, then STEP0020. Then come back here.
 
 - Class: text
-  Output: "You might remember seeing the $ sign in class. This is used to pull a vector out from a data frame. When you're using dplyr verbs, dplyr remembers the data frame you are using, so you don't need flights$ each time before the variable name."
-
-- Class: text
-  Output: "Also, note that the columns are returned in the order you specified."
+  Output: Now tell R to work in that folder, with the mouse, in the Files pane at the bottom right of RStudio. The pane shows folders. To browse to a different place, click the three dots (...) at the top right of the pane; a window opens; find your module folder and click Open. The pane now shows the inside of your folder.
 
 - Class: cmd_question
-  Output: "Recall that in R, the : operator provides a compact notation for creating a sequence of numbers. For example, try 5:20."
-  CorrectAnswer: 5:20
-  AnswerTests: omnitest(correctExpr='5:20')
-  Hint: "Type 5:20 to see how : can be used to create a sequence of numbers."
+  Output: With the Files pane showing your folder, click the cog (the gear icon, More), then Set As Working Directory. RStudio will type a setwd() command into the console for you, with the path to your folder inside the brackets. That command is the answer to this step, so do it even if you think you are already in the right place.
+  CorrectAnswer: setwd("the path to your module folder")
+  AnswerTests: expr_uses_func("setwd")
+  Hint: Files pane, bottom right. The three dots (...) to browse, open your folder, then the cog, then Set As Working Directory. If the mouse route fails, you can type it yourself, for example setwd("~/Documents/STEP0020") on a Mac, with your own folder name in the quotes.
 
 - Class: cmd_question
-  Output: "Normally this notation is reserved for numbers, but select() allows you to specify a sequence of columns this way, which can save typing. Use select(flights, year:dep_delay) to select all columns starting from year and ending with dep_delay."
-  CorrectAnswer: select(flights, year:dep_delay)
-  AnswerTests: omnitest(correctExpr='select(flights, year:dep_delay)')
-  Hint: "select(flights, year:dep_delay) will select all columns from year to dep_delay (left to right)."
-
-- Class: cmd_question
-  Output: "We can also select the same columns in reverse order. Give it a try."
-  CorrectAnswer: select(flights, dep_delay:year)
-  AnswerTests: omnitest(correctExpr='select(flights, dep_delay:year)')
-  Hint: "Try select(flights, dep_delay:year)."
-
-- Class: cmd_question
-  Output: "Print the entire dataset again to remind yourself what it looks like. You can do this at any time during the lesson."
-  CorrectAnswer: flights
-  AnswerTests: omnitest(correctExpr='flights')
-  Hint: "Type flights."
-
-- Class: cmd_question
-  Output: "Instead of specifying the columns we want to keep, we can specify the columns we want to omit. To see how this works, do select(flights, -carrier) to omit the carrier column."
-  CorrectAnswer: select(flights, -carrier)
-  AnswerTests: omnitest(correctExpr='select(flights, -carrier)')
-  Hint: "Use select(flights, -carrier) to remove the carrier column."
-
-- Class: text
-  Output: "Now that you know how to select a subset of columns using select(), a natural next question is: How do I select a subset of rows? That's where the filter() function comes in."
-
-- Class: cmd_question
-  Output: "Use filter(flights, origin == \"JFK\") to select all rows where the plane is taking off from JFK airport. Use two equals signs side-by-side."
-  CorrectAnswer: filter(flights, origin == "JFK")
-  AnswerTests: omnitest(correctExpr='filter(flights, origin == "JFK")')
-  Hint: "filter(flights, origin == \"JFK\") returns only rows where origin equals JFK."
-
-- Class: text
-  Output: "Again, note that filter() recognizes origin as a column of flights, without you having to explicitly specify flights$origin."
-
-- Class: text
-  Output: "The == operator asks whether the thing on the left is equal to the thing on the right. If yes, it returns TRUE; otherwise FALSE. In this case, origin is an entire vector (column) of values, so origin == \"JFK\" returns a vector of TRUEs and FALSEs. filter() then returns only the rows of flights corresponding to the TRUEs."
-
-- Class: cmd_question
-  Output: "You can specify multiple conditions separated by commas. For example, filter(flights, month == 1, origin == \"JFK\") returns all flights from JFK in January. Try it."
-  CorrectAnswer: filter(flights, month == 1, origin == "JFK")
-  AnswerTests: any_of_exprs('filter(flights, month == 1, origin == "JFK")', 'filter(flights, origin == "JFK", month == 1)')
-  Hint: "Try filter(flights, month == 1, origin == \"JFK\")."
-
-- Class: cmd_question
-  Output: "The conditions passed to filter() can use any of the standard comparison operators. Pull up the relevant documentation with ?Comparison (uppercase C)."
-  CorrectAnswer: ?Comparison
-  AnswerTests: omnitest(correctExpr='?Comparison')
-  Hint: "?Comparison opens the help for comparison operators."
-
-- Class: cmd_question
-  Output: "Edit your previous call to filter() to instead return rows corresponding to flights from La Guardia airport (LGA) taking place in August. The up arrow on your keyboard may come in handy. Don't forget your double quotes."
-  CorrectAnswer: filter(flights, month == 8, origin == "LGA")
-  AnswerTests: any_of_exprs('filter(flights, month == 8, origin == "LGA")', 'filter(flights, origin == "LGA", month == 8)')
-  Hint: "Try filter(flights, month == 8, origin == \"LGA\")."
-
-- Class: cmd_question
-  Output: "Our last two calls to filter() requested rows where condition AND another condition were TRUE. We can also request rows where EITHER one OR another condition is TRUE. For example, filter(flights, carrier == \"AA\" | carrier == \"UA\") gives all rows where the carrier is American Airlines or United Airlines. Try it."
-  CorrectAnswer: filter(flights, carrier == "AA" | carrier == "UA")
-  AnswerTests: omnitest(correctExpr='filter(flights, carrier == "AA" | carrier == "UA")')
-  Hint: "Use filter(flights, carrier == \"AA\" | carrier == \"UA\"). The | symbol is the logical OR."
-
-- Class: cmd_question
-  Output: "Now, use filter() to fetch all rows for which the departure delay is strictly greater than (>) 60 minutes."
-  CorrectAnswer: filter(flights, dep_delay > 60)
-  AnswerTests: omnitest(correctExpr='filter(flights, dep_delay > 60)')
-  Hint: "Try filter(flights, dep_delay > 60)."
-
-- Class: text
-  Output: "We've seen how to select a subset of columns and rows from our dataset using select() and filter(), respectively. Inherent in select() was also the ability to arrange our selected columns in any order we please."
-
-- Class: text
-  Output: "Sometimes we want to order the rows of a dataset according to the values of a particular variable. This is the job of arrange()."
-
-- Class: cmd_question
-  Output: "To see how arrange() works, let's first take a subset of flights. Use select() to get all columns from month through dep_delay and store the result in flights2."
-  CorrectAnswer: flights2 <- select(flights, month:dep_delay)
-  AnswerTests: omnitest('flights2 <- select(flights, month:dep_delay)')
-  Hint: "Use select(flights, month:dep_delay) and assign to flights2."
-
-- Class: cmd_question
-  Output: "Now order the rows of flights2 so that dep_delay is in ascending order (from small to large). Type arrange(flights2, dep_delay)."
-  CorrectAnswer: arrange(flights2, dep_delay)
-  AnswerTests: omnitest('arrange(flights2, dep_delay)')
-  Hint: "arrange(flights2, dep_delay) orders from smallest delay to largest delay."
-
-- Class: text
-  Output: "Who ever heard of a plane leaving more than half an hour early?"
-
-- Class: cmd_question
-  Output: "To do the same, but in descending order, change the second argument to desc(dep_delay)."
-  CorrectAnswer: arrange(flights2, desc(dep_delay))
-  AnswerTests: omnitest('arrange(flights2, desc(dep_delay))')
-  Hint: "arrange(flights2, desc(dep_delay)) orders from largest delay to smallest delay."
-
-- Class: cmd_question
-  Output: "We can also arrange the data according to the values of multiple variables. For example, arrange(flights2, month, desc(dep_delay)) first arranges by month, then by delay (descending). Try it."
-  CorrectAnswer: arrange(flights2, month, desc(dep_delay))
-  AnswerTests: omnitest('arrange(flights2, month, desc(dep_delay))')
-  Hint: "Try arrange(flights2, month, desc(dep_delay))."
-
-- Class: text
-  Output: "It's common to create a new variable based on the value of one or more variables already in a dataset. The mutate() function does exactly this."
-
-- Class: cmd_question
-  Output: "Select year, month, day, carrier, and flight (in that order) from the original flights dataset, and put them in a new data frame called flights3."
-  CorrectAnswer: flights3 <- select(flights, year, month, day, carrier, flight)
-  AnswerTests: omnitest('flights3 <- select(flights, year, month, day, carrier, flight)')
-  Hint: "Try flights3 <- select(flights, year, month, day, carrier, flight)."
-
-- Class: text
-  Output: "Often, flight codes combine the carrier prefix with the flight number. Rather than two columns, we can combine into one string."
-
-- Class: cmd_question
-  Output: "You can use paste0() to combine vectors together. The 0 in paste0 means no separator, unlike paste() which defaults to a space. Try paste0(c(\"A\", \"B\", \"C\"), 1:3)."
-  CorrectAnswer: paste0(c("A", "B", "C"), 1:3)
-  AnswerTests: omnitest('paste0(c("A", "B", "C"), 1:3)')
-  Hint: "Type paste0(c(\"A\", \"B\", \"C\"), 1:3)."
-
-- Class: cmd_question
-  Output: "Now view flights3 so you can see the two columns you will combine."
-  CorrectAnswer: flights3
-  AnswerTests: omnitest('flights3')
-  Hint: "Type flights3."
-
-- Class: cmd_question
-  Output: "Make a new column using mutate(). Call it FlightNumber and set it equal to paste0(carrier, flight)."
-  CorrectAnswer: mutate(flights3, FlightNumber = paste0(carrier, flight))
-  AnswerTests: omnitest('mutate(flights3, FlightNumber = paste0(carrier, flight))')
-  Hint: "Use mutate(flights3, FlightNumber = paste0(carrier, flight))."
-
-- Class: text
-  Output: "Now let's compute summary statistics by groups."
-
-- Class: text
-  Output: "Using dplyr in R, you do this by first grouping data with group_by(), then summarising over groups with summarise()."
-
-- Class: text
-  Output: "Let's use this to work out the average delay for each carrier in 2013."
-
-- Class: text
-  Output: "To do this neatly, we will use chaining with the %>% operator. When you use chaining, you start by typing the dataset name, then %>%, then the dplyr verb (without repeating the dataset as the first argument)."
-
-- Class: text
-  Output: "For example, filter(flights, dep_delay > 60) is the same as flights %>% filter(dep_delay > 60)."
-
-- Class: text
-  Output: "You can also build longer chains like flights %>% filter(dep_delay > 60) %>% arrange(month, desc(dep_delay)) %>% select(month, day, dep_delay, carrier). This filters, orders by month and delay, and keeps only the listed columns."
-
-- Class: text
-  Output: "When you use group_by(), you generally use it as part of a chain."
-
-- Class: cmd_question
-  Output: "Take the flights dataset, group it by carrier, and calculate the mean departure delay. Chain with %>%. Use mean_delay = mean(dep_delay, na.rm = TRUE) inside summarise()."
-  CorrectAnswer: flights %>% group_by(carrier) %>% summarise(mean_delay = mean(dep_delay, na.rm = TRUE))
-  AnswerTests: omnitest('flights %>% group_by(carrier) %>% summarise(mean_delay = mean(dep_delay, na.rm = TRUE))')
-  Hint: "Use flights %>% group_by(carrier) %>% summarise(mean_delay = mean(dep_delay, na.rm = TRUE))."
-
-- Class: text
-  Output: "Great. Summarisation is a powerful tool we will practise more as we go forward."
+  Output: Check it. Type getwd() and press Enter. The answer is the path to your folder. Whenever R says it cannot find a file, this is the first thing to check.
+  CorrectAnswer: getwd()
+  AnswerTests: omnitest(correctExpr='getwd()')
+  Hint: Type getwd() with nothing inside the brackets.
 
 - Class: figure
-  Output: "This lesson is complete. Before leaving, generate your completion code with your UCL student number and post it in Moodle."
+  Output: I have just put a copy of mysterydata.csv into that folder, so that this lesson works wherever you chose to work. In Session 4 you downloaded it from Moodle yourself; the lesson only saves you the download.
+  Figure: copydata.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: Check the file is there. Type list.files() to see every file in the working directory. mysterydata.csv should be in the list.
+  CorrectAnswer: list.files()
+  AnswerTests: omnitest(correctExpr='list.files()')
+  Hint: Type list.files() with nothing inside the brackets.
+
+- Class: text
+  Output: The function that reads a csv file is read_csv(). It is not part of R itself. R arrives with the basics, and everything else comes in packages. A package is a set of functions that somebody wrote, tested and gave away, bundled with its documentation and sometimes with data, and shared through a catalogue called CRAN. On your phone you install an app when you need one; in R you install a package. There are over twenty thousand of them.
+
+- Class: text
+  Output: readr is a package specialised in reading files into R, whatever their format, such as comma-separated files (csv), tab-separated files (tsv), fixed-width files from older government systems, and text files with any other separator. It reads them fast and tells you what it decided about each column. We use it to import csv.
+
+- Class: text
+  Output: readr is one of a family of packages called the tidyverse. Another member, dplyr, transforms tables; you meet it later in this lesson. Rather than load each member by name, this module uses one line, library(tidyverse), which loads the whole family. That is the line at the top of every script from now on.
+
+- Class: text
+  Output: Two commands go with every package. install.packages() fetches it from the internet onto your computer, once. library() loads it into the current R session so its functions can be used, every time you open RStudio. Both have been done for you in this lesson; in your own scripts you write the library() line yourself.
+
+- Class: cmd_question
+  Output: Import the file. Type titanic <- read_csv("mysterydata.csv"). Read it aloud as you type it. Make me an object called titanic; into it, put whatever read_csv produces when it reads that file. Mind the underscore and the quotation marks.
+  CorrectAnswer: titanic <- read_csv("mysterydata.csv")
+  AnswerTests: omnitest(correctExpr='titanic <- read_csv("mysterydata.csv")')
+  Hint: titanic <- read_csv("mysterydata.csv")  The arrow is a less-than sign and a minus sign. The file name goes in double quotes.
+
+- Class: text
+  Output: R has just printed a block of text, starting Rows 1309 Columns 6, then Column specification, Delimiter, chr (2) and dbl (4). This is not an error and nothing has gone wrong. It is read_csv() reporting back, the way a careful colleague would, on what it found and what it decided.
+
+- Class: text
+  Output: Read it line by line. Rows 1309, Columns 6 is the size of the table. Delimiter "," is the character that separates the values in the file, the comma in csv. chr (2) name, sex are two columns it read as characters, that is words. dbl (4) pclass, survived, age, fare are four columns it read as doubles, that is numbers that may have decimals.
+
+- Class: text
+  Output: Nobody told R what kind of thing each column is. It looked at the file and decided. That decision fixes what you will be allowed to do with each column later. You can average a dbl column and not a chr one. If the report ever surprises you, say a column of numbers reported as chr, that is the moment to look at the file, because something in it is not what you assumed.
+
+- Class: text
+  Output: In the lab we called this object data. Today it is titanic. The name is yours to choose; the only rule is that you use the same one afterwards. (data is also the name of a function in R, which is a reason not to use it.)
+
+- Class: cmd_question
+  Output: Print the whole object by typing its name, titanic.
+  CorrectAnswer: titanic
+  AnswerTests: omnitest(correctExpr='titanic')
+  Hint: Type titanic on its own.
+
+- Class: text
+  Output: R shows you the first ten rows and tells you how many more there are. This kind of table is called a tibble, a data frame with manners. A data frame is a set of columns, each a vector of one kind, all the same length, standing side by side.
+
+- Class: text
+  Output: A note on reading a command aloud, because it prevents the most common error. A function is a verb, and what goes inside the brackets is what the verb acts on, its argument. getwd() took nothing, because it only has one thing to report. dim() needs to be told what to measure, so the name of the table goes inside the brackets. dim(titanic) reads as "the dimensions of titanic". Typed on its own, dim() stops with an error saying it was given 0 arguments and requires 1. That error means exactly that. Nothing is broken; put the name inside the brackets.
+
+- Class: cmd_question
+  Output: Use dim() to see the dimensions of titanic, rows then columns.
+  CorrectAnswer: dim(titanic)
+  AnswerTests: omnitest(correctExpr='dim(titanic)')
+  Hint: dim(titanic). The brackets need the name of the thing to measure. dim() on its own errors with 0 arguments passed, which means the same thing.
+
+- Class: cmd_question
+  Output: Use names() to list the column names.
+  CorrectAnswer: names(titanic)
+  AnswerTests: omnitest(correctExpr='names(titanic)')
+  Hint: names(titanic). The name of the table goes inside the brackets.
+
+- Class: cmd_question
+  Output: Use head() to see the first six rows.
+  CorrectAnswer: head(titanic)
+  AnswerTests: omnitest(correctExpr='head(titanic)')
+  Hint: head(titanic). The name of the table goes inside the brackets.
+
+- Class: cmd_question
+  Output: And tail() to see the last six. The file is in alphabetical order by name, which is itself a choice somebody made.
+  CorrectAnswer: tail(titanic)
+  AnswerTests: omnitest(correctExpr='tail(titanic)')
+  Hint: tail(titanic). The name of the table goes inside the brackets.
+
+- Class: cmd_question
+  Output: One column on its own is a vector. The dollar sign pulls a column out of a data frame. Type titanic$age to see all 1,309 ages as a single vector.
+  CorrectAnswer: titanic$age
+  AnswerTests: omnitest(correctExpr='titanic$age')
+  Hint: Type titanic$age with no spaces.
+
+- Class: text
+  Output: Notice the NA values scattered through it. NA means not available, a gap in the record. 263 passengers have no recorded age. Keep that in mind; it comes back at the end of this lesson.
+
+- Class: cmd_question
+  Output: Everything you did in Flipped Coding 1 works on a column, because a column is a vector. Try mean(titanic$fare, na.rm = TRUE). The na.rm = TRUE tells mean() to drop the gaps before averaging; without it, one NA makes the whole answer NA.
+  CorrectAnswer: mean(titanic$fare, na.rm = TRUE)
+  AnswerTests: omnitest(correctExpr='mean(titanic$fare, na.rm = TRUE)')
+  Hint: mean(titanic$fare, na.rm = TRUE)
+
+- Class: text
+  Output: Now dplyr, the member of the tidyverse that transforms tables. It was loaded for you at the start of this lesson. Normally that is your job, so to build the habit, load the family yourself now.
+
+- Class: cmd_question
+  Output: Type library(tidyverse).
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: library(tidyverse) loads readr, dplyr and the rest of the family in one line.
+
+- Class: text
+  Output: If a block of text appeared headed Conflicts, in red or not, it is not an error. It says that two loaded packages each have a function with the same name, for example filter, and that from now on the tidyverse version is the one used. You can ignore it every time.
+
+- Class: text
+  Output: According to the authors, "the dplyr philosophy is to have small functions that each do one thing well." Five verbs cover most of what anyone does to a table. select() chooses columns. filter() chooses rows. arrange() sorts rows. mutate() makes a new column. summarise() collapses many rows to one. A sixth, group_by(), makes summarise() work once per group.
+
+- Class: cmd_question
+  Output: Every function has a help page. Pull up the one for select() by typing ?select
+  CorrectAnswer: ?select
+  AnswerTests: omnitest(correctExpr='?select')
+  Hint: Type ?select
+
+- Class: text
+  Output: The help page opens in the bottom right pane. The other verbs have help pages in the same way. Reading a help page is a skill; the Usage and Examples sections are the useful ones.
+
+- Class: cmd_question
+  Output: Often you only want some of the columns. Use select(titanic, name, age, survived) to keep just those three, in that order.
+  CorrectAnswer: select(titanic, name, age, survived)
+  AnswerTests: omnitest(correctExpr='select(titanic, name, age, survived)')
+  Hint: select(titanic, name, age, survived)
+
+- Class: text
+  Output: Two things to notice. You did not have to write titanic$name; inside a dplyr verb, the data frame is the first argument and the verb remembers it. And the columns came back in the order you asked for.
+
+- Class: cmd_question
+  Output: In Flipped Coding 1 the colon made a sequence of numbers. Remind yourself with 1:6.
+  CorrectAnswer: "1:6"
+  AnswerTests: omnitest(correctExpr='1:6')
+  Hint: Type 1:6
+
+- Class: cmd_question
+  Output: select() lets you use the same colon for a run of columns. Use select(titanic, pclass:name) to keep every column from pclass through to name.
+  CorrectAnswer: select(titanic, pclass:name)
+  AnswerTests: omnitest(correctExpr='select(titanic, pclass:name)')
+  Hint: select(titanic, pclass:name)
+
+- Class: cmd_question
+  Output: You can also say which columns to drop. Use select(titanic, -name) to keep everything except the names.
+  CorrectAnswer: select(titanic, -name)
+  AnswerTests: omnitest(correctExpr='select(titanic, -name)')
+  Hint: select(titanic, -name)
+
+- Class: text
+  Output: That is columns. Now rows. The verb that chooses rows is filter(), and it chooses them by a condition.
+
+- Class: cmd_question
+  Output: Use filter(titanic, sex == "female") to keep only the rows where sex is female. Two equals signs, side by side, and double quotes around the word.
+  CorrectAnswer: filter(titanic, sex == "female")
+  AnswerTests: omnitest(correctExpr='filter(titanic, sex == "female")')
+  Hint: filter(titanic, sex == "female")
+
+- Class: text
+  Output: The == operator asks whether the thing on the left equals the thing on the right, and answers TRUE or FALSE. Here sex is a whole column, so sex == "female" is a column of TRUEs and FALSEs, 1,309 long. filter() keeps the rows where it says TRUE. 466 rows, as the top line tells you.
+
+- Class: cmd_question
+  Output: Conditions can be combined with commas, meaning AND. Use filter(titanic, sex == "female", pclass == 1) for women in first class.
+  CorrectAnswer: filter(titanic, sex == "female", pclass == 1)
+  AnswerTests: any_of_exprs('filter(titanic, sex == "female", pclass == 1)', 'filter(titanic, pclass == 1, sex == "female")')
+  Hint: filter(titanic, sex == "female", pclass == 1)
+
+- Class: cmd_question
+  Output: Edit that line to find men in third class. The up arrow brings your last command back.
+  CorrectAnswer: filter(titanic, sex == "male", pclass == 3)
+  AnswerTests: any_of_exprs('filter(titanic, sex == "male", pclass == 3)', 'filter(titanic, pclass == 3, sex == "male")')
+  Hint: filter(titanic, sex == "male", pclass == 3)
+
+- Class: cmd_question
+  Output: The other way to combine is OR, written with a vertical bar. Use filter(titanic, pclass == 1 | pclass == 2) for everyone not in third class.
+  CorrectAnswer: filter(titanic, pclass == 1 | pclass == 2)
+  AnswerTests: any_of_exprs('filter(titanic, pclass == 1 | pclass == 2)', 'filter(titanic, pclass == 2 | pclass == 1)')
+  Hint: filter(titanic, pclass == 1 | pclass == 2)  The bar shares a key with the backslash on most keyboards.
+
+- Class: cmd_question
+  Output: Conditions can use any comparison, not only equals. Pull up the list with ?Comparison (capital C).
+  CorrectAnswer: ?Comparison
+  AnswerTests: omnitest(correctExpr='?Comparison')
+  Hint: ?Comparison
+
+- Class: cmd_question
+  Output: Use filter(titanic, age > 60) to find the passengers over sixty.
+  CorrectAnswer: filter(titanic, age > 60)
+  AnswerTests: omnitest(correctExpr='filter(titanic, age > 60)')
+  Hint: filter(titanic, age > 60)
+
+- Class: cmd_question
+  Output: A gap is a condition too. Use filter(titanic, is.na(age)) to see the 263 passengers whose age was never recorded.
+  CorrectAnswer: filter(titanic, is.na(age))
+  AnswerTests: omnitest(correctExpr='filter(titanic, is.na(age))')
+  Hint: filter(titanic, is.na(age))
+
+- Class: text
+  Output: The ten rows you see are all first class, because the file is sorted by class and then by name. You cannot tell from ten rows who the 263 are. Hold the question; the tool that answers it, a summary by group, comes at the end of this lesson.
+
+- Class: text
+  Output: Next, order. arrange() sorts the rows of a table by one or more columns.
+
+- Class: cmd_question
+  Output: First make a smaller table to look at. Use titanic2 <- select(titanic, name:fare) to keep the columns from name to fare and store the result as titanic2.
+  CorrectAnswer: titanic2 <- select(titanic, name:fare)
+  AnswerTests: omnitest(correctExpr='titanic2 <- select(titanic, name:fare)')
+  Hint: titanic2 <- select(titanic, name:fare)
+
+- Class: cmd_question
+  Output: Now arrange(titanic2, age) to sort from youngest to oldest.
+  CorrectAnswer: arrange(titanic2, age)
+  AnswerTests: omnitest(correctExpr='arrange(titanic2, age)')
+  Hint: arrange(titanic2, age)
+
+- Class: text
+  Output: The youngest passenger is two months old, 0.1667 of a year. A number is only a number until somebody tells you its unit.
+
+- Class: cmd_question
+  Output: To sort the other way, wrap the column in desc(), for descending. Use arrange(titanic2, desc(fare)) to put the most expensive ticket first.
+  CorrectAnswer: arrange(titanic2, desc(fare))
+  AnswerTests: omnitest(correctExpr='arrange(titanic2, desc(fare))')
+  Hint: arrange(titanic2, desc(fare))
+
+- Class: cmd_question
+  Output: 512.3292. In what currency? The file does not say. You can sort by more than one column; use arrange(titanic2, sex, desc(age)) to sort by sex, and within each sex from oldest to youngest.
+  CorrectAnswer: arrange(titanic2, sex, desc(age))
+  AnswerTests: omnitest(correctExpr='arrange(titanic2, sex, desc(age))')
+  Hint: arrange(titanic2, sex, desc(age))
+
+- Class: text
+  Output: Next, a new column. mutate() makes a column from the ones you already have.
+
+- Class: cmd_question
+  Output: Make a small table first. Use titanic3 <- select(titanic, name, sex, age, survived).
+  CorrectAnswer: titanic3 <- select(titanic, name, sex, age, survived)
+  AnswerTests: omnitest(correctExpr='titanic3 <- select(titanic, name, sex, age, survived)')
+  Hint: titanic3 <- select(titanic, name, sex, age, survived)
+
+- Class: cmd_question
+  Output: Now add a column that says whether each passenger was a child. Use mutate(titanic3, child = age < 16). The new column is named on the left of the equals sign and defined on the right.
+  CorrectAnswer: mutate(titanic3, child = age < 16)
+  AnswerTests: omnitest(correctExpr='mutate(titanic3, child = age < 16)')
+  Hint: mutate(titanic3, child = age < 16)
+
+- Class: text
+  Output: The new column is TRUE, FALSE or NA. Sixteen is your choice, not the file's. Another analyst would have chosen twelve or eighteen, and the count of children would change. Write choices like that in a comment.
+
+- Class: text
+  Output: Last, and most important, summaries. A summary takes many rows and returns one. summarise() does it; group_by() makes it happen once per group.
+
+- Class: text
+  Output: For this we use chaining. Until now the table has been the first argument of every verb. With the pipe, %>%, you start with the table and then say what to do to it, verb after verb. The pipe reads as "then".
+
+- Class: text
+  Output: So filter(titanic, age > 60) is the same as titanic %>% filter(age > 60). And a chain can be long. titanic %>% filter(sex == "female") %>% arrange(desc(age)) %>% select(name, age) takes the table, then keeps the women, then sorts oldest first, then keeps two columns.
+
+- Class: cmd_question
+  Output: Try that chain now. Type titanic %>% filter(sex == "female") %>% arrange(desc(age)) %>% select(name, age)
+  CorrectAnswer: titanic %>% filter(sex == "female") %>% arrange(desc(age)) %>% select(name, age)
+  AnswerTests: omnitest(correctExpr='titanic %>% filter(sex == "female") %>% arrange(desc(age)) %>% select(name, age)')
+  Hint: Build it one piece at a time. titanic, then %>% filter(sex == "female"), then %>% arrange(desc(age)), then %>% select(name, age). The percent signs are part of the pipe.
+
+- Class: cmd_question
+  Output: Now a summary. survived is 0 or 1, so its mean is the share who survived. Type titanic %>% summarise(share = mean(survived)) to get one number for the whole ship.
+  CorrectAnswer: titanic %>% summarise(share = mean(survived))
+  AnswerTests: omnitest(correctExpr='titanic %>% summarise(share = mean(survived))')
+  Hint: titanic %>% summarise(share = mean(survived))
+
+- Class: cmd_question
+  Output: 0.382. One number for 1,309 people. Now the same, once per sex. Put group_by(sex) in the chain before summarise. Type titanic %>% group_by(sex) %>% summarise(share = mean(survived))
+  CorrectAnswer: titanic %>% group_by(sex) %>% summarise(share = mean(survived))
+  AnswerTests: omnitest(correctExpr='titanic %>% group_by(sex) %>% summarise(share = mean(survived))')
+  Hint: titanic %>% group_by(sex) %>% summarise(share = mean(survived))
+
+- Class: text
+  Output: 0.727 for women, 0.191 for men. Two numbers, and a very different story from one. The group you choose decides what the data is allowed to show you.
+
+- Class: cmd_question
+  Output: A summary can have more than one column. n() counts the rows in each group. Type titanic %>% group_by(pclass) %>% summarise(n = n(), share = mean(survived))
+  CorrectAnswer: titanic %>% group_by(pclass) %>% summarise(n = n(), share = mean(survived))
+  AnswerTests: omnitest(correctExpr='titanic %>% group_by(pclass) %>% summarise(n = n(), share = mean(survived))')
+  Hint: titanic %>% group_by(pclass) %>% summarise(n = n(), share = mean(survived))
+
+- Class: cmd_question
+  Output: Last one, and the gaps come back. Average age by class. Type titanic %>% group_by(pclass) %>% summarise(mean_age = mean(age, na.rm = TRUE)). Without na.rm = TRUE every class would come back NA, because every class has passengers with no recorded age.
+  CorrectAnswer: titanic %>% group_by(pclass) %>% summarise(mean_age = mean(age, na.rm = TRUE))
+  AnswerTests: omnitest(correctExpr='titanic %>% group_by(pclass) %>% summarise(mean_age = mean(age, na.rm = TRUE))')
+  Hint: titanic %>% group_by(pclass) %>% summarise(mean_age = mean(age, na.rm = TRUE))
+
+- Class: text
+  Output: First class averages 39, third class 25. Those are means of the people whose age was recorded. Now the question you held earlier. Who are the 263 with no recorded age?
+
+- Class: cmd_question
+  Output: Chain three verbs. Keep the rows with no age, group them by class, and count each group. Type titanic %>% filter(is.na(age)) %>% group_by(pclass) %>% summarise(n = n())
+  CorrectAnswer: titanic %>% filter(is.na(age)) %>% group_by(pclass) %>% summarise(n = n())
+  AnswerTests: omnitest(correctExpr='titanic %>% filter(is.na(age)) %>% group_by(pclass) %>% summarise(n = n())')
+  Hint: titanic %>% filter(is.na(age)) %>% group_by(pclass) %>% summarise(n = n())
+
+- Class: text
+  Output: 39, 16 and 208. Of the 263 passengers with no recorded age, 208 were in third class. If the people with no recorded age are not a random slice of the ship, every average age you compute is wrong in a direction you can now reason about. Session 6 starts here.
+
+- Class: text
+  Output: You have imported a file, read what the machine decided about it, pulled out a column, chosen columns and rows, sorted, made a column, and summarised by group. Those are the moves. Everything in the lab on Thursday is one of them.
+
+- Class: figure
+  Output: This lesson is complete. Before you leave, generate the code that shows you completed it, and post it on the Session 6 forum.
   Figure: finalcode.R
   FigureType: new
 
 - Class: cmd_question
-  Output: "Type completioncode(YOUR_8_DIGIT_NUMBER). Example: completioncode(12345678)."
-  CorrectAnswer: completioncode(12345678)
+  Output: Write your 8-digit UCL student number into completioncode(). For example, if my number were 12345678, I would type completioncode(12345678). Keep the console line with the command and the code it prints on screen for your forum post.
+  CorrectAnswer: completioncode(00000000)
   AnswerTests: expr_uses_func("completioncode")
-  Hint: "Replace 12345678 with your own 8-digit student number, for example completioncode(XXXXXXXX)."
+  Hint: Type completioncode(YOURSTUDENTNUMBER), replacing the text with your actual student number.
 
 - Class: text
-  Output: "Copy your code and paste it in Moodle under 'Pre-session 6'."
-
-- Class: text
-  Output: "If Moodle asks for a screenshot, include the console line showing completioncode(YOURNUMBER) and the printed code."
-
-- Class: text
-  Output: "Saving and exiting: type bye() to exit and save your progress. To return to the main menu (without exiting R), type main(). You can experiment with play() and resume with nxt(). Your code remains valid once generated."
+  Output: Now post that console line on the Session 6 forum, with two sentences on what was most confusing and what clicked.
